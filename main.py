@@ -57,7 +57,7 @@ async def roll_avantage(interaction: discord.Interaction, nb_dice:str='0', value
     view=ButtonsAv(nb_dice=int(nb_dice),val=int(value))
     await interaction.response.send_message("Choisissez les dés",view=view)
 
-@bot.tree.command(name="roll_avantage",description="Jet de dé avec avantage")
+@bot.tree.command(name="roll_full",description="Jet de dé avec full")
 async def roll_full(interaction: discord.Interaction, nb_dice:str='0', value:str='1000'):
     # ButtonsFull est une class qui represente le design des boutons
     # de base nb_dice a 0 car comme ca pas de blocage
