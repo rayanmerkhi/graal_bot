@@ -16,7 +16,7 @@ client = discord.Client(intents=intents)
 
 tree = app_commands.CommandTree(client)
 bot = commands.Bot(command_prefix="/", intents=intents)
-
+context=discord.ext.commands.Context
 
 @bot.command()
 @commands.is_owner()
@@ -48,21 +48,21 @@ async def roll(interaction: discord.Interaction, nb_dice:str='0', value:str='100
     # ButtonsNorm est une class qui represente le design des boutons
     # de base nb_dice a 0 car comme ca pas de blocage
     view=ButtonsNorm(nb_dice=int(nb_dice),val=int(value))
-    await interaction.response.send_message("Choisissez les dés",view=view)
+    await interaction.response.send_message("Choisissez les dés",view=view,ephemeral=True)
 
 @bot.tree.command(name="roll_avantage",description="Jet de dé avec avantage")
 async def roll_avantage(interaction: discord.Interaction, nb_dice:str='0', value:str='1000'):
     # ButtonsAv est une class qui represente le design des boutons
     # de base nb_dice a 0 car comme ca pas de blocage
     view=ButtonsAv(nb_dice=int(nb_dice),val=int(value))
-    await interaction.response.send_message("Choisissez les dés",view=view)
+    await interaction.response.send_message("Choisissez les dés",view=view,ephemeral=True)
 
 @bot.tree.command(name="roll_full",description="Jet de dé avec full")
 async def roll_full(interaction: discord.Interaction, nb_dice:str='0', value:str='1000'):
     # ButtonsFull est une class qui represente le design des boutons
     # de base nb_dice a 0 car comme ca pas de blocage
     view=ButtonsFull(nb_dice=int(nb_dice),val=int(value))
-    await interaction.response.send_message("Choisissez les dés",view=view)
+    await interaction.response.send_message("Choisissez les dés",view=view,ephemeral=True)
 
 @bot.event
 async def on_ready():

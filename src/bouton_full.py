@@ -73,11 +73,10 @@ class ButtonsFull(discord.ui.View):
     @discord.ui.button(label="submit",style=discord.ButtonStyle.green,row=2) # or .success
     async def submit(self,interaction:discord.Interaction,button:discord.ui.Button):
         button.disabled=True
-        tp=''
+        tp=' a lancé :\n'
         crit = True
         sum=0
         for roll in self.to_roll:
-            tp += 'Jet de '
             tp +='d'+str(roll)+': '
             nb=randint(1,roll)
             sum+=nb
@@ -90,7 +89,7 @@ class ButtonsFull(discord.ui.View):
             tp+='Succès Critique !\n'
         elif abs(self.val-sum)<15 & self.val!=1000:
             tp+='Echec Critique !\n'
-        await interaction.response.send_message(tp)
+        await interaction.response.send_message(f'{interaction.user.mention}'+tp)
         for child in self.children:
             child.disabled=True
         self.stop()

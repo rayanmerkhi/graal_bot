@@ -66,7 +66,7 @@ class ButtonsNorm(discord.ui.View):
 
         await interaction.response.edit_message(view=self)
     
-    @discord.ui.button(label="d20",style=discord.ButtonStyle.gray,row=1) # or .success
+    @discord.ui.button(label="d20",style=discord.ButtonStyle.gray,row=1) # or .secondary/.grey
     async def dtwenty(self,interaction:discord.Interaction,button:discord.ui.Button):
         button.disabled=True
         self.to_roll.append(20)
@@ -80,11 +80,10 @@ class ButtonsNorm(discord.ui.View):
     @discord.ui.button(label="submit",style=discord.ButtonStyle.green,row=2) # or .success
     async def submit(self,interaction:discord.Interaction,button:discord.ui.Button):
         button.disabled=True
-        tp=''
+        tp= ' a lancé :\n'
         crit = True
         sum=0
         for roll in self.to_roll:
-            tp += 'Jet de '
             tp +='d'+str(roll)+': '
             nb=randint(1,roll)
             sum+=nb
@@ -97,7 +96,7 @@ class ButtonsNorm(discord.ui.View):
             tp+='Succès Critique !\n'
         elif abs(self.val-sum)<15 & self.val!=1000:
             tp+='Echec Critique !\n'
-        await interaction.response.send_message(tp)
+        await interaction.response.send_message(f'{interaction.user.mention}'+tp)
         for child in self.children:
             child.disabled=True
         self.stop()
