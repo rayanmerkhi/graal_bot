@@ -18,8 +18,7 @@ class ButtonsNorm(discord.ui.View):
         self.rest-=1
         if self.rest ==0:
             for child in self.children:
-                if child.row!=2:
-                    child.disabled=True
+                child.disabled=True
 
         await interaction.response.edit_message(view=self)
         await self.submit(interaction=interaction, tr=4)
@@ -30,8 +29,7 @@ class ButtonsNorm(discord.ui.View):
         self.rest-=1
         if self.rest ==0:
             for child in self.children:
-                if child.row!=2:
-                    child.disabled=True
+                child.disabled=True
         await interaction.response.edit_message(view=self)
         await self.submit(interaction=interaction, tr=6)
 
@@ -41,8 +39,7 @@ class ButtonsNorm(discord.ui.View):
         self.rest-=1
         if self.rest ==0:
             for child in self.children:
-                if child.row!=2:
-                    child.disabled=True
+                child.disabled=True
 
         await interaction.response.edit_message(view=self)
         await self.submit(interaction=interaction, tr=8)
@@ -54,8 +51,7 @@ class ButtonsNorm(discord.ui.View):
         self.rest-=1
         if self.rest ==0:
             for child in self.children:
-                if child.row!=2:
-                    child.disabled=True
+                child.disabled=True
         await interaction.response.edit_message(view=self)
         await self.submit(interaction=interaction, tr=10)
     
@@ -65,8 +61,7 @@ class ButtonsNorm(discord.ui.View):
         self.rest-=1
         if self.rest ==0:
             for child in self.children:
-                if child.row!=2:
-                    child.disabled=True
+                child.disabled=True
 
         await interaction.response.edit_message(view=self)
         await self.submit(interaction=interaction, tr=12)
@@ -77,8 +72,7 @@ class ButtonsNorm(discord.ui.View):
         self.rest-=1
         if self.rest ==0:
             for child in self.children:
-                if child.row!=2:
-                    child.disabled=True
+                child.disabled=True
 
         await interaction.response.edit_message(view=self)
         await self.submit(interaction=interaction, tr=20)
@@ -89,22 +83,46 @@ class ButtonsNorm(discord.ui.View):
         sum=0
         self.result.append(randint(1,tr))
         self.rolled.append(tr)
-        
-        
+        explode=[]
+
+        if(self.result[len(self.result)-1]==tr):
+            explode.append(tr)
+
         for i in range(len(self.rolled)):
             tp +='d'+str(self.rolled[i])+': '
             sum+=self.result[i]
             tp+=str(self.result[i])+' '
-            if(self.)
             tp+='\n'
+            
+
         
         tp+='Somme: '+str(sum)+'\n'
-        if crit:
+        for i in range(len(self.rolled)):
+            if(self.rolled[i]!=self.result[i]):
+                crit=False
+        if(crit):
             tp+='Succès Critique !\n'
-        elif abs(self.val-sum)<15 & self.val!=1000:
-            tp+='Echec Critique !\n'
-        
+            for i in range(len(self.rolled)):
+                tp+=f'{self.rolled[i]==self.result[i] }'
+
+        if(self.val != 1000):
+            if(sum>self.val and sum<self.val+10):
+                tp+='Succès !\n'
+            elif(sum==self.val):
+                tp+='Succès Critique !\n'
+            elif(sum<self.val and sum>self.val-10):
+                tp+='Echec !'
+            else:
+                tp+='Echec Critique !\n'
+
+        vu=discord.ui.View()
+        for i in range(len(explode)):
+            but=discord.ui.Button(label=f'explosion d{explode[i]}',style=discord.ButtonStyle.green)
+            async def but_callback(interaction):
+                await self.submit(explode[i],interaction)
+            but.callback = but_callback
+            vu.add_item(but)
         if(self.response_msg==None):
-            self.response_msg:discord.Message=await interaction.followup.send(content=f'{interaction.user.mention} {tp}')
+            self.response_msg:discord.Message = await interaction.followup.send(content=f'{interaction.user.mention} {tp}',view=vu)
         else:
-            await self.response_msg.edit(content=f'{interaction.user.mention} {tp}')
+            await self.response_msg.edit(content = f'{interaction.user.mention} {tp}',view=vu)
